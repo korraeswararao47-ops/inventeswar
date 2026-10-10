@@ -1,0 +1,22 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+  functions = "netlify/functions"
+
+[build.environment]
+  # Create React App fails the build on lint warnings when CI=true
+  CI = "false"
+  NODE_VERSION = "20"
+
+# Chat requests -> serverless function that holds the API key
+[[redirects]]
+  from = "/ollama/api/chat"
+  to = "/.netlify/functions/ollama"
+  status = 200
+  force = true
+
+# Single-page app fallback so page refreshes on /products etc. work
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
